@@ -1,41 +1,40 @@
-# ⚖️ LegalLens - AI-Powered Multimodal Contract Analyzer
+# ⚖️ LegalLens – AI-Powered Multimodal Contract Analyzer
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
+![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.51-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-**LegalLens** is an advanced multimodal AI application that revolutionizes contract analysis by combining RAG (Retrieval-Augmented Generation) technology with voice-enabled interactions. Built with Streamlit and powered by OpenAI's GPT-4o mini family, it enables users to upload legal contracts and interact with them through both text-based chat and voice queries.
+**LegalLens** is an AI assistant for legal teams that blends Retrieval-Augmented Generation (RAG), Supabase-backed authentication, and voice interactions. Users can upload contracts, interrogate them through chat or speech, and receive curated quick actions such as summaries, key dates, or risk highlights.
 
 ## 🚀 Features
 
-- **📄 PDF Contract Upload**: Support for multi-page legal documents
-- **💬 RAG-Powered Text Chat**: Ask questions and get precise answers with section citations
-- **🎤 Voice Question & Answer**: Speak naturally to query your contracts using multimodal AI
-- **⚠️ Automatic Red Flag Detection**: AI identifies potential legal risks and concerning clauses
-- **🔍 Smart Contract Summarization**: Instant summaries of parties, obligations, and key terms
-- **📅 Key Date Extraction**: Automatically finds deadlines and time-sensitive obligations
- - **🔐 Supabase Auth**: Email/password sign-in plus "Continue with Google"
-- **🔄 Resilient Embeddings**: Automatically falls back to local sentence-transformer embeddings if OpenAI quotas are hit
-- **🎨 Professional Legal Tech UI**: Dark blue theme optimized for legal professionals
-- **☁️ Cloud-Ready**: Deployed on Streamlit Community Cloud with secure secrets management
+- **📄 PDF Contract Upload**: Handles lengthy, multi-page legal documents.
+- **💬 RAG Chat Workspace**: Chat with your contract and receive grounded answers with section call-outs.
+- **🎤 Voice Q&A**: Record questions and play back spoken answers using GPT-4o mini audio APIs.
+- **⚠️ Automatic Red Flag Detection**: Surfaces clauses that may require legal review along with supporting text.
+- **📅 Key Date Extraction**: Pulls deadlines and time-sensitive obligations on demand.
+- **✨ Quick Actions**: Precomputes summaries, red flags, and date lists as soon as a document finishes indexing.
+- **🔐 Supabase Auth**: Email/password plus Google OAuth with session caching inside Streamlit.
+- **🔄 Resilient Embeddings**: Falls back to local `all-MiniLM-L6-v2` embeddings when OpenAI quotas are exhausted.
+- **🚀 Cloud Ready**: Optimized for Streamlit Community Cloud with cached vector stores and pinned runtimes.
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Streamlit
-- **AI Model**: OpenAI GPT-4o mini (text + reasoning)
-- **Embeddings**: OpenAI Text Embedding 3 Large (with local `sentence-transformers/all-MiniLM-L6-v2` fallback)
-- **Vector Database**: FAISS (CPU version)
-- **Framework**: LangChain
-- **Speech-to-Text**: OpenAI GPT-4o mini Transcribe
-- **PDF Processing**: PyPDF
-- **Deployment**: Streamlit Community Cloud
+- **Frontend**: Streamlit 1.51 with custom legal-tech theme.
+- **Orchestration**: LangChain (pinned at `0.1.x`) for text splitting, vector search, and RAG chains.
+- **LLMs & Audio**: OpenAI GPT-4o mini for chat, reasoning, and transcription.
+- **Embeddings**: OpenAI Text Embedding 3 Large with fallback to `sentence-transformers/all-MiniLM-L6-v2` via HuggingFace.
+- **Vector Store**: FAISS (CPU) cached with `st.cache_resource` for fast reloads.
+- **Authentication**: Supabase Auth (email/password + Google OAuth).
+- **Deployment**: Streamlit Community Cloud (Python 3.11 runtime).
 
 ## 📋 Prerequisites
 
-- Python 3.9 or higher
-- OpenAI API Key (with access to GPT-4o mini + embeddings + transcription)
-- Supabase project (Auth enabled with email + Google providers)
-- Git (for version control)
+- Python 3.11 (matches the pinned Streamlit Cloud runtime).
+- OpenAI API key with access to GPT-4o mini (responses + audio) and Embeddings 3 Large.
+- Supabase project with Auth enabled for Email and Google providers.
+- GitHub repository (required for Streamlit Community Cloud deployment).
+- Optional: Conda or venv for isolating dependencies.
 
 ## 🔧 Setup Instructions
 
@@ -46,40 +45,37 @@ git clone https://github.com/yourusername/legallens.git
 cd legallens
 ```
 
-### 2. Install Dependencies
+### 2. Create & Activate a Virtual Environment (Recommended)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+```
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set Up API Key (Local Development)
+### 4. Configure Environment Variables (Local Development)
 
-Create a `.env` file in the project root:
+Create a `.env` file in the project root containing:
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key_here
-```
-
-**To get your OpenAI API Key:**
-1. Visit [OpenAI Platform](https://platform.openai.com/account/api-keys)
-2. Sign in with your OpenAI account (create one if needed)
-3. Click "Create new secret key"
-4. Copy the key and paste it in your `.env` file
-
-### 4. Configure Supabase Auth
-
-LegalLens now requires Supabase for authentication. After creating your Supabase project and enabling email + Google providers, add the following to your local `.env` (and Streamlit secrets when deploying):
-
-```bash
 SUPABASE_URL=https://<your-project>.supabase.co
 SUPABASE_ANON_KEY=<your-anon-key>
 SUPABASE_REDIRECT_URL=http://localhost:8501
-OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-Set `SUPABASE_REDIRECT_URL` to match the redirect URL configured in Supabase Auth settings. When deploying, replace it with your public Streamlit URL.
+> `SUPABASE_REDIRECT_URL` must exactly match the redirect URL configured in Supabase Auth settings. During local development use `http://localhost:8501`; replace it with your Streamlit Cloud URL after deployment.
 
-### 5. Run Locally
+### 5. Seed Default Contract (Optional)
+
+Drop any frequently used PDF contracts into the app at runtime. LegalLens caches embeddings keyed by file hash to accelerate repeat uploads.
+
+### 6. Run Locally
 
 ```bash
 streamlit run app.py
@@ -91,30 +87,39 @@ The application will open in your default browser at `http://localhost:8501`
 
 ### Deploy to Streamlit Community Cloud
 
-1. **Push to GitHub**
+1. **Verify Runtime Pin**
+   - Ensure `runtime.txt` contains `python-3.11.9`. Streamlit Cloud will create a Python 3.11 environment automatically.
+
+2. **Push to GitHub** (main branch is `master` in this project)
    ```bash
    git add .
-   git commit -m "Initial commit - LegalLens project"
-   git push origin main
+   git commit -m "Deploy LegalLens"
+   git push origin master
    ```
 
-2. **Connect to Streamlit Cloud**
+3. **Connect to Streamlit Cloud**
    - Go to [share.streamlit.io](https://share.streamlit.io)
    - Sign in with your GitHub account
    - Click "New app"
    - Select your repository, branch (`main`), and main file (`app.py`)
 
-3. **Configure Secrets**
+4. **Configure Secrets**
    - In Streamlit Cloud dashboard, click on your app
    - Go to "Settings" → "Secrets"
    - Add the following in TOML format:
    ```toml
-   OPENAI_API_KEY = "your_openai_api_key_here"
+   OPENAI_API_KEY = "sk-..."
+   SUPABASE_URL = "https://<your-project>.supabase.co"
+   SUPABASE_ANON_KEY = "<your-anon-key>"
+   SUPABASE_REDIRECT_URL = "https://<your-app-name>.streamlit.app"
    ```
+   - Include the quotes (`"value"`) or Streamlit will reject the secrets.
+   - Confirm that the redirect URL matches the one set in Supabase Auth → URL Configuration.
 
-4. **Deploy**
+5. **Deploy / Redeploy**
    - Click "Deploy!"
    - Your app will be live at `https://your-app-name.streamlit.app`
+    - To pick up new changes later, push to GitHub and choose "Redeploy" from the app dashboard.
 
 ## 📖 How to Use
 
@@ -133,11 +138,12 @@ The application will open in your default browser at `http://localhost:8501`
 2. Navigate to the "Voice Mode" tab
 3. Click the microphone icon and speak your question
 4. Click "Process Voice Question" to get your answer
-
 ### Dashboard Quick Actions
-- **Summarize Contract**: Get instant overview of the document
-- **Identify Red Flags**: Detect potential legal risks
-- **Extract Key Dates**: Find all important deadlines
+- **Summarize Contract**: Precomputed overview of the parties and obligations.
+- **Identify Red Flags**: Cached analysis of risky or unusual clauses.
+- **Extract Key Dates**: Lists deadlines and renewal windows referenced in the document.
+
+Quick actions refresh any time you upload a new document; results are cached to avoid recomputation during the session.
 
 ## 🔒 Security & Privacy
 
@@ -151,10 +157,11 @@ The application will open in your default browser at `http://localhost:8501`
 
 ```
 legallens/
-├── app.py                 # Main Streamlit application
-├── requirements.txt       # Python dependencies
-├── README.md             # Project documentation
-└── .env                  # Local environment variables (not committed)
+├── app.py                 # Main Streamlit application and Supabase handlers
+├── requirements.txt       # Pinned Python dependencies (LangChain 0.1.x)
+├── runtime.txt            # Streamlit Cloud runtime pin (Python 3.11.9)
+├── README.md              # Documentation (you are here)
+└── todo.md                # Lightweight backlog / completed tasks
 ```
 
 ## 🐛 Troubleshooting
@@ -187,22 +194,16 @@ Contributions are welcome! Please follow these steps:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👨‍💻 Author
+## 👥 Maintainers
 
-**Your Name**  
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- Project Lead: *Update with your name / team*
+- Issues & support: Please open a GitHub issue with detailed reproduction steps.
 
 ## 🙏 Acknowledgments
 
-- OpenAI team for GPT-4o mini and transcription capabilities
-- Streamlit team for the excellent web framework
-- LangChain community for RAG infrastructure
-- FAISS team for efficient vector similarity search
-
-## 📊 Project Status
-
-✅ **Ready for Submission** - All core features implemented and tested.
+- OpenAI for GPT-4o mini text + audio capabilities.
+- Streamlit for the rapid prototyping framework.
+- LangChain & FAISS communities for the RAG tooling ecosystem.
 
 ---
 
