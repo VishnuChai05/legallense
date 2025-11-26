@@ -1,0 +1,5 @@
+- [x] Switch application from Gemini to OpenAI stack
+- [x] Update requirements for OpenAI usage
+- [x] Adjust README to match new architecture
+- [x] Inspect OpenAI account model limits via API
+- [x] Provide fallback embedding option that avoids API quotas
