@@ -1,8 +1,9 @@
 # ⚖️ LegalLens – AI-Powered Multimodal Contract Analyzer
 
-![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.51-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-orange.svg)
 
 **LegalLens** is an AI assistant for legal teams that blends Retrieval-Augmented Generation (RAG), Supabase-backed authentication, and voice interactions. Users can upload contracts, interrogate them through chat or speech, and receive curated quick actions such as summaries, key dates, or risk highlights.
 
@@ -10,31 +11,38 @@
 
 - **📄 PDF Contract Upload**: Handles lengthy, multi-page legal documents.
 - **💬 RAG Chat Workspace**: Chat with your contract and receive grounded answers with section call-outs.
-- **🎤 Voice Q&A**: Record questions and play back spoken answers using GPT-4o mini audio APIs.
-- **⚠️ Automatic Red Flag Detection**: Surfaces clauses that may require legal review along with supporting text.
+- **🎤 Voice Q&A**: Record questions using Google Speech Recognition (free) or OpenAI Whisper.
+- **⚠️ Risk Score Analysis**: AI-powered risk scoring (0-100) with confidence levels and identified risks.
 - **📅 Key Date Extraction**: Pulls deadlines and time-sensitive obligations on demand.
 - **✨ Quick Actions**: Precomputes summaries, red flags, and date lists as soon as a document finishes indexing.
 - **🔐 Supabase Auth**: Email/password plus Google OAuth with session caching inside Streamlit.
+- **🤖 Multi-LLM Support**: Works with OpenAI GPT-4o, **Ollama local models** (llama3.2, tinyllama), or Groq.
 - **🔄 Resilient Embeddings**: Falls back to local `all-MiniLM-L6-v2` embeddings when OpenAI quotas are exhausted.
 - **🚀 Cloud Ready**: Optimized for Streamlit Community Cloud with cached vector stores and pinned runtimes.
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Streamlit 1.51 with custom legal-tech theme.
-- **Orchestration**: LangChain (pinned at `0.1.x`) for text splitting, vector search, and RAG chains.
-- **LLMs & Audio**: OpenAI GPT-4o mini for chat, reasoning, and transcription.
-- **Embeddings**: OpenAI Text Embedding 3 Large with fallback to `sentence-transformers/all-MiniLM-L6-v2` via HuggingFace.
-- **Vector Store**: FAISS (CPU) cached with `st.cache_resource` for fast reloads.
-- **Authentication**: Supabase Auth (email/password + Google OAuth).
-- **Deployment**: Streamlit Community Cloud (Python 3.11 runtime).
+| Component | Technology |
+|-----------|------------|
+| **Frontend** | Streamlit 1.51 with custom legal-tech theme |
+| **Backend** | FastAPI server with /chat, /risk, /upload endpoints |
+| **Orchestration** | LangChain for text splitting, vector search, and RAG chains |
+| **LLMs** | OpenAI GPT-4o mini, **Ollama** (local), or Groq (cloud) |
+| **Speech** | Google Speech Recognition (free) / OpenAI Whisper |
+| **Embeddings** | OpenAI Text Embedding 3 Large with fallback to HuggingFace `all-MiniLM-L6-v2` |
+| **Vector Store** | FAISS (CPU) cached with `st.cache_resource` |
+| **Authentication** | Supabase Auth (email/password + Google OAuth) |
+| **Deployment** | Streamlit Community Cloud (Python 3.11 runtime) |
 
 ## 📋 Prerequisites
 
-- Python 3.11 (matches the pinned Streamlit Cloud runtime).
-- OpenAI API key with access to GPT-4o mini (responses + audio) and Embeddings 3 Large.
-- Supabase project with Auth enabled for Email and Google providers.
-- GitHub repository (required for Streamlit Community Cloud deployment).
-- Optional: Conda or venv for isolating dependencies.
+- Python 3.11+ (matches the pinned Streamlit Cloud runtime)
+- **One of the following LLM options:**
+  - OpenAI API key with access to GPT-4o mini
+  - Ollama installed locally (for offline/free usage)
+  - Groq API key (free tier available)
+- Supabase project with Auth enabled for Email and Google providers
+- GitHub repository (required for Streamlit Community Cloud deployment)
 
 ## 🔧 Setup Instructions
 
@@ -63,22 +71,48 @@ pip install -r requirements.txt
 Create a `.env` file in the project root containing:
 
 ```bash
-OPENAI_API_KEY=your_openai_api_key_here
+# LLM Configuration (choose one)
+OPENAI_API_KEY=your_openai_api_key_here    # For OpenAI
+USE_OPENAI=true                             # Set to "false" to use local Ollama
+
+# Ollama Configuration (for local LLM - free, offline)
+OLLAMA_URL=http://127.0.0.1:11434
+OLLAMA_MODEL=llama3.2:3b                    # or tinyllama, llama3.1:8b
+
+# Supabase Authentication
 SUPABASE_URL=https://<your-project>.supabase.co
 SUPABASE_ANON_KEY=<your-anon-key>
 SUPABASE_REDIRECT_URL=http://localhost:8501
 ```
 
-> `SUPABASE_REDIRECT_URL` must exactly match the redirect URL configured in Supabase Auth settings. During local development use `http://localhost:8501`; replace it with your Streamlit Cloud URL after deployment.
+> `SUPABASE_REDIRECT_URL` must exactly match the redirect URL configured in Supabase Auth settings.
 
-### 5. Seed Default Contract (Optional)
+### 5. (Optional) Set Up Ollama for Local LLM
 
-Drop any frequently used PDF contracts into the app at runtime. LegalLens caches embeddings keyed by file hash to accelerate repeat uploads.
+If you want to run without OpenAI (free, offline):
+
+```bash
+# Install Ollama from https://ollama.ai
+# Then pull a model:
+ollama pull llama3.2:3b      # Recommended (balanced speed/quality)
+ollama pull tinyllama        # Faster but lower quality
+ollama pull llama3.1:8b      # Better quality but slower on CPU
+```
 
 ### 6. Run Locally
 
+**With OpenAI:**
 ```bash
 streamlit run app.py
+```
+
+**With Ollama (local, free):**
+```bash
+# PowerShell
+$env:USE_OPENAI="false"; $env:OLLAMA_URL="http://127.0.0.1:11434"; $env:OLLAMA_MODEL="llama3.2:3b"; streamlit run app.py
+
+# Bash
+USE_OPENAI=false OLLAMA_URL=http://127.0.0.1:11434 OLLAMA_MODEL=llama3.2:3b streamlit run app.py
 ```
 
 The application will open in your default browser at `http://localhost:8501`
@@ -157,26 +191,62 @@ Quick actions refresh any time you upload a new document; results are cached to 
 
 ```
 legallens/
-├── app.py                 # Main Streamlit application and Supabase handlers
-├── requirements.txt       # Pinned Python dependencies (LangChain 0.1.x)
+├── app.py                 # Main Streamlit application
+├── backend/
+│   ├── __main__.py        # Backend entry point
+│   └── app.py             # FastAPI server with /chat, /risk, /upload endpoints
+├── legal_scraper/         # Legal gazette data collection module
+│   ├── fetch.py           # Web scraping utilities
+│   ├── normalizer.py      # Text normalization
+│   ├── exporter.py        # Data export functions
+│   └── sources.yaml       # Scraping source configuration
+├── tests/                 # Comprehensive test suite
+│   ├── test_backend_routes.py
+│   ├── test_risk_confidence.py
+│   ├── test_voice_and_chat.py
+│   └── ...
+├── data/
+│   ├── raw/               # Scraped legal documents (HTML, PDF)
+│   ├── exports/           # Processed JSONL exports
+│   └── vector/            # FAISS vector indices
+├── .streamlit/
+│   ├── config.toml        # Streamlit theme configuration
+│   └── secrets.toml.example  # Secrets template for deployment
+├── requirements.txt       # Python dependencies
 ├── runtime.txt            # Streamlit Cloud runtime pin (Python 3.11.9)
-├── README.md              # Documentation (you are here)
-└── todo.md                # Lightweight backlog / completed tasks
+├── pytest.ini             # Test configuration
+└── README.md              # Documentation (you are here)
 ```
 
 ## 🐛 Troubleshooting
 
 ### Issue: "OpenAI API Key not found"
-**Solution**: Ensure your `.env` file exists locally or secrets are configured in Streamlit Cloud.
+**Solution**: Ensure your `.env` file exists locally or secrets are configured in Streamlit Cloud. Alternatively, use Ollama for local LLM.
+
+### Issue: "OpenAI quota exceeded (429 error)"
+**Solution**: LegalLens automatically falls back to local embeddings. For chat/risk features, set up Ollama:
+```bash
+ollama pull llama3.2:3b
+# Then run with USE_OPENAI=false
+```
 
 ### Issue: "Failed to create embeddings with OpenAI"
-**Solution**: This usually means your OpenAI account hit an embedding quota. LegalLens will automatically switch to local sentence-transformer embeddings; expect slightly slower performance. You can monitor usage at <https://platform.openai.com/usage>.
+**Solution**: This usually means your OpenAI account hit an embedding quota. LegalLens will automatically switch to local sentence-transformer embeddings; expect slightly slower performance.
+
+### Issue: "Ollama responses are slow"
+**Solution**: Local LLM inference on CPU takes 30-60+ seconds. Options:
+- Use a smaller model: `ollama pull tinyllama`
+- Enable GPU acceleration if you have NVIDIA GPU
+- Use Groq (free cloud API) for faster responses
 
 ### Issue: "Module not found" errors
 **Solution**: Run `pip install -r requirements.txt` to install all dependencies.
 
-### Issue: Audio not working
-**Solution**: Ensure you're using a modern browser (Chrome/Edge recommended) and have granted microphone permissions.
+### Issue: Audio/Voice not working
+**Solution**: 
+- Ensure you're using a modern browser (Chrome/Edge recommended)
+- Grant microphone permissions
+- Voice uses Google Speech Recognition (free) by default when OpenAI is disabled
 
 ### Issue: FAISS import errors
 **Solution**: Make sure you're using `faiss-cpu` (not `faiss-gpu`) as specified in requirements.txt.
@@ -202,9 +272,14 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - OpenAI for GPT-4o mini text + audio capabilities.
+- **Ollama** for enabling free, local LLM inference.
+- **Google** for free Speech Recognition API.
 - Streamlit for the rapid prototyping framework.
 - LangChain & FAISS communities for the RAG tooling ecosystem.
+- Supabase for authentication services.
 
 ---
 
 **Built with ❤️ for the Gen AI Capstone Project**
+
+**Repository**: [github.com/VishnuChai05/legallense](https://github.com/VishnuChai05/legallense)
