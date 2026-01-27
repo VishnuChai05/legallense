@@ -1,0 +1,568 @@
+# Seeded legal sources for Indian contract/rental/employment coverage.
+# Extend as needed; always review robots.txt and site terms before scraping.
+
+- name: India Code - Contract Act 1872
+  url: https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: false
+  notes: Primary contract legislation.
+
+- name: India Code - Specific Relief Act 1963
+  url: https://www.indiacode.nic.in/handle/123456789/2183
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: true
+  notes: Specific performance and injunctions.
+
+- name: India Code - Arbitration and Conciliation Act 1996
+  url: https://www.indiacode.nic.in/handle/123456789/2189
+  kind: pdf
+  topic: arbitration
+  jurisdiction: india
+  requires_browser: true
+  notes: Dispute resolution related to contracts.
+
+- name: Legislative Dept - Acts of Parliament
+  url: https://legislative.gov.in/actsofparliamentfromtheyear/1950
+  kind: html
+  topic: notifications
+  jurisdiction: india
+  requires_browser: true
+  notes: Acts of Parliament list; stable HTTPS endpoint.
+
+- name: Maharashtra Govt Acts - Rent Portal
+  url: https://mls.org.in/#/home
+  kind: html
+  topic: rental
+  jurisdiction: state-maharashtra
+  notes: Legislative portal; may require navigation/session.
+
+- name: Tamil Nadu Labour Dept - Notifications
+  url: https://labour.tn.gov.in/
+  kind: html
+  topic: employment
+  jurisdiction: state-tamil-nadu
+  notes: Landing; navigate for notifications.
+
+- name: Delhi Govt - Labour Notifications
+  url: http://labour.delhi.gov.in/content/notifications-0
+  kind: html
+  topic: employment
+  jurisdiction: state-delhi
+  requires_browser: true
+  notes: Employment/labour circulars.
+
+- name: Karnataka Labour Dept - Notifications
+  url: https://labour.karnataka.gov.in/page/notifications
+  kind: html
+  topic: employment
+  jurisdiction: state-karnataka
+  requires_browser: true
+  notes: Employment/labour notifications.
+
+- name: Kerala PWD - Gazette (Index)
+  url: https://pwd.kerala.gov.in/
+  kind: html
+  topic: rental
+  jurisdiction: state-kerala
+  requires_browser: true
+  notes: Department landing; follow links to gazette/notifications.
+
+- name: Maharashtra Shops and Establishments Act (Landing)
+  url: https://mahakamgar.maharashtra.gov.in/en/lc-maharashtra-shops-and-establishments-act
+  kind: html
+  topic: employment
+  jurisdiction: state-maharashtra
+  requires_browser: true
+  notes: State shops & establishments act landing; follow links for act/rules.
+
+- name: Telangana Registrations - Guidelines
+  url: https://registration.telangana.gov.in/
+  kind: html
+  topic: contract
+  jurisdiction: state-telangana
+  notes: Landing; browse guideline PDFs.
+
+- name: Andhra Pradesh e-Gazette
+  url: https://apegazette.cgg.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-andhra-pradesh
+  notes: State gazette portal; landing lists weekly issues.
+
+- name: India Code - Transfer of Property Act 1882
+  url: https://www.indiacode.nic.in/handle/123456789/2263
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: true
+  notes: Property transfers including leases; IndiaCode PDF.
+
+- name: India Code - Registration Act 1908
+  url: https://www.indiacode.nic.in/handle/123456789/2372
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: true
+  notes: Document registration requirements affecting deeds.
+
+- name: India Code - Indian Stamp Act 1899
+  url: https://www.indiacode.nic.in/bitstream/123456789/9184/1/indian_stamp_act_1899.pdf
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: false
+  notes: Stamp duty on instruments including leases and agreements.
+
+# Corporate and business laws
+- name: Companies Act 2013
+  url: https://www.indiacode.nic.in/bitstream/123456789/2114/5/A2013-18.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Primary corporate law framework; IndiaCode bitstream.
+
+- name: Limited Liability Partnership Act 2008
+  url: https://www.indiacode.nic.in/bitstream/123456789/2023/1/A2009-06.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: LLP framework; IndiaCode bitstream.
+
+- name: India Code - Consumer Protection Act 2019
+  url: https://www.indiacode.nic.in/handle/123456789/12648
+  kind: pdf
+  topic: consumer
+  jurisdiction: india
+  requires_browser: true
+  notes: Consumer rights and liabilities for service/goods contracts.
+
+- name: India Code - Information Technology Act 2000
+  url: https://www.indiacode.nic.in/handle/123456789/2000
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  requires_browser: true
+  notes: Electronic records and e-contract validity.
+
+- name: Sale of Goods Act 1930
+  url: https://www.indiacode.nic.in/bitstream/123456789/2390/1/193003.pdf
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  notes: Central sale of goods framework; direct PDF from Legislative Dept.
+
+- name: Limitation Act 1963
+  url: https://www.indiacode.nic.in/bitstream/123456789/1565/5/A1963-36.pdf
+  kind: pdf
+  topic: contract
+  jurisdiction: india
+  notes: Limitation periods; direct PDF from Legislative Dept.
+
+# Employment and labour central acts
+- name: Industrial Disputes Act 1947
+  url: https://labour.gov.in/sites/default/files/theindustrialdisputesact1947_0.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Dispute resolution, retrenchment, layoffs.
+
+- name: Payment of Wages Act 1936
+  url: https://labour.gov.in/sites/default/files/thepaymentofwagesact1936.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  notes: Wage payment timing and deductions.
+
+- name: Minimum Wages Act 1948
+  url: https://labour.gov.in/sites/default/files/TheMinimumWagesAct1948_0.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Minimum wage fixation framework.
+
+- name: Payment of Bonus Act 1965
+  url: https://labour.gov.in/sites/default/files/ThePaymentofBonusAct1965.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Bonus eligibility and calculation.
+
+- name: Payment of Gratuity Act 1972
+  url: https://labour.gov.in/sites/default/files/paymentofgratutyact1972.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Gratuity entitlement and computation.
+
+- name: Employees' Provident Funds Act 1952
+  url: https://labour.gov.in/sites/default/files/Employees_Provident_Fund_Act_1952.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Provident fund, pension, insurance provisions.
+
+- name: Employees' State Insurance Act 1948
+  url: https://labour.gov.in/sites/default/files/TheEmployeesStateInsuranceAct1948.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Social insurance for workers.
+
+- name: Maternity Benefit Act 1961
+  url: https://labour.gov.in/sites/default/files/the_maternity_benefit_act_1961_0.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  notes: Maternity leave and benefits.
+
+- name: Equal Remuneration Act 1976
+  url: https://labour.gov.in/sites/default/files/TheEqualRemunerationAct1976.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Equal pay provisions.
+
+- name: Contract Labour (Regulation and Abolition) Act 1970
+  url: https://labour.gov.in/sites/default/files/ContractLabourRegulationAbolitionAct1970.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Regulation of contract labour.
+
+- name: Inter-State Migrant Workmen Act 1979
+  url: https://labour.gov.in/sites/default/files/TheInter-StateMigrantWorkmenAct1979.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Protection for inter-state migrant workers.
+
+- name: Factories Act 1948
+  url: https://labour.gov.in/sites/default/files/factories_act_1948.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  notes: Safety, health, welfare in factories.
+
+# Labour codes and worker protections
+- name: Code on Wages 2019
+  url: https://labour.gov.in/sites/default/files/the_code_on_wages_2019_no._29_of_2019.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  requires_browser: false
+  notes: Consolidated wage, bonus, and equal remuneration code.
+
+- name: Industrial Relations Code 2020
+  url: https://labour.gov.in/sites/default/files/ir_gazette_of_india.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  requires_browser: false
+  notes: Industrial disputes, trade unions, and standing orders.
+
+- name: Industrial Relations Code 2020 (PRS mirror)
+  url: https://prsindia.org/files/bills_acts/acts_parliament/2020/Industrial%20Relations%20Code,%202020.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  requires_browser: false
+  notes: PRS mirror for reliability; use alongside labour.gov copy.
+
+- name: Occupational Safety, Health and Working Conditions Code 2020
+  url: https://labour.gov.in/sites/default/files/osh_gazette.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  requires_browser: false
+  notes: Consolidated OSH requirements across establishments.
+
+- name: Code on Social Security 2020
+  url: https://labour.gov.in/sites/default/files/ss_code_gazette.pdf
+  kind: pdf
+  topic: employment
+  jurisdiction: india
+  requires_browser: false
+  notes: Provident fund, ESI, gratuity, maternity, and gig worker coverage.
+
+- name: Building and Other Construction Workers Act 1996
+  url: https://labour.gov.in/sites/default/files/BOCW%20Act%201996_0.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Registration and welfare of construction workers.
+
+- name: Child and Adolescent Labour (Prohibition and Regulation) Act 1986
+  url: https://labour.gov.in/sites/default/files/childlabour%20_0.pdf
+  kind: html
+  topic: employment
+  jurisdiction: india
+  requires_browser: true
+  notes: Prohibits/limits child and adolescent labour.
+
+# Housing
+- name: Model Tenancy Act 2021
+  url: https://mohua.gov.in/upload/uploadfiles/files/ModelTenancyAct2021.pdf
+  kind: pdf
+  topic: rental
+  jurisdiction: india
+  requires_browser: true
+  notes: Central model for tenancy regulation.
+
+# Business and corporate laws
+- name: Companies Act 2013
+  url: https://www.indiacode.nic.in/bitstream/123456789/2114/5/A2013-18.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Primary corporate law framework; IndiaCode bitstream.
+
+- name: Limited Liability Partnership Act 2008
+  url: https://www.indiacode.nic.in/bitstream/123456789/2023/1/A2009-06.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: LLP governance; IndiaCode bitstream.
+
+- name: Insolvency and Bankruptcy Code 2016
+  url: https://ibbi.gov.in/uploads/legalframwork/547c9c2af074c90ac5919fa8a5c60bd4.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: IBC text from IBBI.
+
+- name: SEBI Act 1992
+  url: https://www.indiacode.nic.in/bitstream/123456789/1890/1/AA1992__15secu.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Securities regulation; IndiaCode bitstream.
+
+- name: FEMA 1999
+  url: https://www.indiacode.nic.in/bitstream/123456789/1988/1/A1999_42.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Foreign exchange management act; IndiaCode bitstream.
+
+- name: MSMED Act 2006
+  url: https://www.indiacode.nic.in/bitstream/123456789/2013/3/A2006-27.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Micro, Small and Medium Enterprises Development Act.
+
+- name: Gujarat e-Gazette
+  url: http://egazette.gujarat.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-gujarat
+  notes: State gazette portal; uses HTTP.
+
+- name: Madhya Pradesh e-Gazette
+  url: http://www.mpinfo.org/MPinfoStatic/egazette/default.aspx
+  kind: html
+  topic: notifications
+  jurisdiction: state-madhya-pradesh
+  notes: State gazette listings; ASPX index.
+
+- name: Chhattisgarh e-Gazette
+  url: http://egazette.cg.nic.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-chhattisgarh
+  notes: State gazette site; HTTP endpoint.
+
+- name: Odisha e-Gazette
+  url: http://egazetteodisha.nic.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-odisha
+  notes: State gazette portal; HTTP landing page.
+
+- name: Haryana e-Gazette
+  url: http://egazetteharyana.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-haryana
+  notes: State gazette portal; HTTP landing page.
+
+- name: Bihar e-Gazette
+  url: http://egazette.bihar.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-bihar
+  notes: State gazette portal; HTTP landing page.
+
+- name: Himachal Pradesh e-Gazette
+  url: https://rajpatrahimachal.nic.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-himachal-pradesh
+  notes: State gazette portal; HTTPS landing page.
+
+# Additional state e-gazettes to broaden coverage when direct act PDFs are unavailable
+- name: Karnataka e-Gazette
+  url: https://egazette.karnataka.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-karnataka
+  requires_browser: true
+  notes: State gazette portal; use for acts/notifications including Shops & Establishments and rent matters.
+
+- name: Delhi e-Gazette
+  url: https://egazette.delhi.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-delhi
+  requires_browser: true
+  notes: GNCTD gazette; contains labour and rent notifications.
+
+- name: Tamil Nadu e-Gazette
+  url: https://www.tn.gov.in/egazette/
+  kind: html
+  topic: notifications
+  jurisdiction: state-tamil-nadu
+  requires_browser: true
+  notes: State gazette; contains labour and tenancy notifications.
+
+- name: Telangana e-Gazette
+  url: http://tsgazette.cgg.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-telangana
+  notes: State gazette; use for labour and rental notifications.
+
+- name: Uttar Pradesh e-Gazette
+  url: http://egazette.up.nic.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-uttar-pradesh
+  notes: State gazette portal; HTTP landing.
+
+- name: West Bengal e-Gazette
+  url: http://egazette.wb.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-west-bengal
+  notes: State gazette portal; HTTP landing.
+
+- name: Rajasthan e-Gazette
+  url: https://www.rajpatra.rajasthan.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-rajasthan
+  requires_browser: true
+  notes: State gazette portal; acts and notifications.
+
+- name: Punjab e-Gazette
+  url: https://egazette.punjab.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-punjab
+  requires_browser: true
+  notes: State gazette portal; acts/notifications including labour.
+
+# Karnataka Gazette
+- name: Karnataka Gazette Weekly
+  url: https://gazette.karnataka.gov.in/English.aspx
+  kind: html
+  topic: notifications
+  jurisdiction: state-karnataka
+  requires_browser: true
+  notes: Weekly gazette listing; follow PDF links for notices.
+
+- name: Karnataka Gazette Extraordinary
+  url: https://gazette.karnataka.gov.in/Extraordinary.aspx
+  kind: html
+  topic: notifications
+  jurisdiction: state-karnataka
+  requires_browser: true
+  notes: Extraordinary gazette; follow PDFs for orders/notifications.
+
+# Delhi Gazette
+- name: Delhi Gazette Weekly
+  url: http://egazette.delhi.gov.in/
+  kind: html
+  topic: notifications
+  jurisdiction: state-delhi
+  requires_browser: true
+  notes: Weekly gazette; follow PDF links for notices.
+
+- name: Delhi Gazette Extraordinary
+  url: http://egazette.delhi.gov.in/Extraordinary.aspx
+  kind: html
+  topic: notifications
+  jurisdiction: state-delhi
+  requires_browser: true
+  notes: Extraordinary gazette; follow PDF links for urgent orders.
+
+# Core business and corporate laws
+- name: Companies Act 2013
+  url: https://www.indiacode.nic.in/bitstream/123456789/2114/5/A2013-18.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Primary company law framework.
+
+- name: Limited Liability Partnership Act 2008
+  url: https://www.indiacode.nic.in/bitstream/123456789/2023/1/A2009-06.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: LLP structure and governance.
+
+- name: Insolvency and Bankruptcy Code 2016
+  url: https://ibbi.gov.in/uploads/legalframwork/547c9c2af074c90ac5919fa8a5c60bd4.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Corporate insolvency and resolution framework.
+
+- name: SEBI Act 1992
+  url: https://www.indiacode.nic.in/bitstream/123456789/1890/1/AA1992__15secu.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Securities market regulation.
+
+- name: FEMA 1999
+  url: https://www.indiacode.nic.in/bitstream/123456789/1988/1/A1999_42.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Foreign exchange management framework.
+
+- name: MSMED Act 2006
+  url: https://www.indiacode.nic.in/bitstream/123456789/2013/3/A2006-27.pdf
+  kind: pdf
+  topic: business
+  jurisdiction: india
+  requires_browser: false
+  notes: Micro, Small and Medium Enterprises Development Act.
