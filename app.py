@@ -16,6 +16,7 @@ from functools import wraps
 import httpx
 from dotenv import load_dotenv
 from openai import OpenAI
+from groq import Groq
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
@@ -72,6 +73,10 @@ RISK_MAX_TOKENS = 350
 # Optional local model (Ollama) for RAG/chat/risk. Leave empty to skip.
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "")
+
+# Groq Cloud LLM (free tier: 14,400 requests/day) - fast and high quality
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")  # Fast and capable
 
 # Embedding models - using small for cost efficiency
 EMBEDDING_MODEL_PRIMARY = "text-embedding-3-small"   # Best value (1M TPM, cheap)
@@ -586,6 +591,62 @@ def _ollama_generate(prompt: str, max_tokens: int, temperature: float = 0.3) -> 
         return text
 
 
+# ===========================
+# GROQ CLOUD LLM (FREE & FAST)
+# ===========================
+def _get_groq_api_key() -> str:
+    """Get Groq API key from secrets or environment."""
+    key = ""
+    try:
+        key = st.secrets.get("GROQ_API_KEY", "")
+    except Exception:
+        pass
+    if not key:
+        key = os.getenv("GROQ_API_KEY", "")
+    return key.strip()
+
+
+def _use_groq() -> bool:
+    """Check if Groq is configured and available."""
+    return bool(_get_groq_api_key())
+
+
+def _get_groq_model() -> str:
+    """Get configured Groq model."""
+    model = ""
+    try:
+        model = st.secrets.get("GROQ_MODEL", "")
+    except Exception:
+        pass
+    if not model:
+        model = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+    return model.strip()
+
+
+def _groq_generate(prompt: str, max_tokens: int, temperature: float = 0.3) -> str:
+    """Generate text using Groq Cloud API (free, fast)."""
+    api_key = _get_groq_api_key()
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY not configured")
+    
+    model = _get_groq_model()
+    logger.info(f"[Groq] Calling with model={model}")
+    
+    client = Groq(api_key=api_key)
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_tokens,
+        temperature=temperature,
+    )
+    
+    text = response.choices[0].message.content or ""
+    logger.info(f"[Groq] Got response ({len(text)} chars)")
+    if not text:
+        raise RuntimeError("Empty response from Groq")
+    return text
+
+
 @st.cache_resource(show_spinner=False)
 def _get_chat_llm_primary() -> ChatOpenAI:
     """Primary LLM - GPT-4o for best quality."""
@@ -755,16 +816,25 @@ INSTRUCTIONS:
 
 DETAILED ANSWER:"""
 
-    # Prefer local model if configured
+    # Priority: Groq (fast cloud) > Ollama (local) > OpenAI
+    if _use_groq():
+        try:
+            logger.info("[RAG] Using Groq for chat")
+            return _groq_generate(prompt, max_tokens=LLM_MAX_TOKENS, temperature=0.3)
+        except Exception as e:
+            logger.warning(f"[RAG] Groq failed: {e}")
+
     if _use_ollama():
         try:
+            logger.info("[RAG] Using Ollama for chat")
             return _ollama_generate(prompt, max_tokens=LLM_MAX_TOKENS, temperature=0.3)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"[RAG] Ollama failed: {e}")
 
     if not _openai_enabled():
-        raise RuntimeError("OpenAI disabled and local model not configured")
+        raise RuntimeError("No LLM configured. Set GROQ_API_KEY, OLLAMA_MODEL, or OPENAI_API_KEY")
 
+    logger.info("[RAG] Using OpenAI for chat")
     llm = _get_chat_llm()
     response = llm.invoke(prompt)
     return getattr(response, "content", str(response))
@@ -888,6 +958,30 @@ def _execute_risk_calculation(vector_store) -> dict:
 
     context, snippet_count = _collect_risk_context(vector_store)
 
+    # Risk analysis prompt for Groq/Ollama
+    risk_prompt_local = f"""TASK: You are a legal risk analyst. Analyze this contract excerpt and return a JSON risk assessment.
+
+CONTRACT TEXT:
+{context[:2000] if len(context) > 2000 else context}
+
+INSTRUCTIONS:
+1. Score the contract risk from 0 (safe) to 100 (very risky)
+2. Identify 1-3 specific risk issues with evidence quotes
+3. Return ONLY valid JSON in this exact format:
+
+{{"score": 45, "level": "Medium", "rationale": "Brief explanation", "top_risks": [{{"issue": "Risk description", "evidence": "Quote from contract"}}], "confidence": 0.7}}
+
+RESPOND WITH JSON ONLY, NO OTHER TEXT:"""
+
+    # Priority: Groq (fast cloud) > Ollama (local) > OpenAI
+    if _use_groq():
+        try:
+            logger.info("[Risk] Using Groq for risk calculation")
+            result_text = _groq_generate(risk_prompt_local, max_tokens=400, temperature=0.1)
+            return _normalize_risk_payload(result_text, snippet_count)
+        except Exception as e:
+            logger.error(f"[Risk] Groq failed: {e}")
+
     if _use_ollama():
         try:
             logger.info("[Risk] Using Ollama for risk calculation")
@@ -910,15 +1004,12 @@ RESPOND WITH JSON ONLY, NO OTHER TEXT:"""
             return _normalize_risk_payload(result_text, snippet_count)
         except Exception as e:
             logger.error(f"[Risk] Ollama failed: {e}")
-            pass
-    else:
-        logger.info("[Risk] Ollama not available")
 
     if not _openai_enabled():
         return {
             "score": 50,
             "level": "Medium",
-            "top_risks": ["Local model not configured and OpenAI is disabled."],
+            "top_risks": ["No LLM configured. Set GROQ_API_KEY, OLLAMA_MODEL, or OPENAI_API_KEY."],
             "rationale": None,
             "confidence": 0.2,
             "confidence_level": "Low",
