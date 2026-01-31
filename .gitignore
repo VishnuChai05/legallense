@@ -1,10 +1,15 @@
 # Python cache
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
 
 # Virtual environments
 .venv/
 venv/
+env/
+ENV/
 
 # Streamlit secrets and local environment
 .env
@@ -13,3 +18,40 @@ venv/
 # OS junk
 .DS_Store
 Thumbs.db
+*.swp
+*~
+
+# Testing
+tests/
+pytest.ini
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Development files
+*.log
+*.tmp
+.idea/
+.vscode/
+*.sublime-*
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Data files (large/generated)
+data/raw/
+data/vector/
+data/exports/
+
+# Backend (not needed for Streamlit Cloud)
+backend/
+
+# Legal scraper (development tool)
+legal_scraper/
+
+# Reports and docs (optional)
+REPORT.md
+todo.md
