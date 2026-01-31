@@ -49,8 +49,16 @@ data/exports/
 # Backend (not needed for Streamlit Cloud)
 backend/
 
-# Legal scraper (development tool)
-legal_scraper/
+# Legal scraper (keep only pdf_highlighter.py)
+legal_scraper/exporter.py
+legal_scraper/fetch.py
+legal_scraper/gazette_model.py
+legal_scraper/normalizer.py
+legal_scraper/playwright_utils.py
+legal_scraper/runner.py
+legal_scraper/sources.py
+legal_scraper/sources.yaml
+legal_scraper/sources_playwright.py
 
 # Reports and docs (optional)
 REPORT.md
