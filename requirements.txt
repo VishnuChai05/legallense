@@ -1,5 +1,6 @@
 # Core Framework
 streamlit>=1.28.0
+streamlit-pdf-viewer>=0.0.7
 
 # LangChain Stack
 langchain>=0.1.20
